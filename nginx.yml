@@ -1,0 +1,27 @@
+---
+ -name:configure nginx server
+ hosts:all
+ remote_user:ansible
+ become:yes
+ 
+ tasks:
+   -name:install nginx package
+   yum:
+     name:nginx
+	 state:latest
+	
+   -name:Download jinja2 file from ftp server
+   get_url:
+   url:ftp://ip/pub/nginx.conf.j2
+   dest:/etc/nginx/conf/nginx.conf
+   
+   -name:create content
+   copy:
+     content:"welcome to tunetolinux.com"
+	 dest:/user/share/nginx.html
+	 
+	-name:start and enable nginx server
+	service:
+	  name:nginx
+	  state:started
+	  enabled:yes
