@@ -1,4 +1,25 @@
 ---
+ -hosts:apache
+   user:ansible
+   sudo:yes
+   gather_facts:no
+
+tasks:
+ -name:install apache
+ action:yum name=httpd state=installed
+ async=300
+ poll=3
+
+notify:restart httpd
+
+handlers:
+   -name:restart apache
+   action:service name=httpd state:restarted
+ 
+
+      (OR)
+
+---
  -name:configure apache server
  hosts:all
  remote_user:ansible
