@@ -1,4 +1,26 @@
 ---
+ -hosts:nginx
+   user:ansible
+   sudo:yes
+   gather_facts:no
+
+tasks:
+ -name:install nginx
+ action:yum name=nginx state=installed
+ async=300
+ poll=3
+
+notify:restart nginx
+
+handlers:
+   -name:restart nginx
+   action:service name=nginx state:restarted
+
+
+               (OR)
+
+
+---
  -name:configure nginx server
  hosts:all
  remote_user:ansible
